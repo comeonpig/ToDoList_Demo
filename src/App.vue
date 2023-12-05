@@ -14,7 +14,7 @@
         >
       </van-cell-group>
 
-      <van-radio-group>
+      <van-radio-group v-model="checked">
         <van-cell-group>
           <van-cell icon="smile-o" v-show="datalist.length === 0"
             >暂无待办事项喔~</van-cell
@@ -24,25 +24,15 @@
             v-for="(item, index) in datalist"
             :title="item"
             center
+            @click="handleIndex(index)"
             clickable
           >
             <template #right-icon>
-              <van-radio
-                :name="index"
-                @click="handleDel(index)"
-                id="selected"
-              />
+              <van-radio :name="index" id="selected" />
             </template>
           </van-cell>
         </van-cell-group>
       </van-radio-group>
-
-      <!-- <ul v-show="datalist.length !== 0">
-      <li v-for="(item, index) in datalist">
-        {{ item }}
-        <button @click="handleDel(index)">Del</button>
-      </li>
-    </ul> -->
     </div>
   </div>
 </template>
@@ -64,8 +54,8 @@ export default {
     toDoHeader,
   },
   data() {
-    const checked = ref(0);
     const datalist = ref([]);
+    const checked = ref("0");
     return {
       inputValue: "",
       datalist,
@@ -80,9 +70,12 @@ export default {
       this.datalist.push(this.inputValue);
       this.inputValue = "";
     },
-    handleDel(e) {
-      document.getElementById("selected").checked = e;
-      this.datalist.splice(e, 1);
+    handleIndex(index) {
+      this.checked = index;
+      setTimeout(() => {
+        this.datalist.splice(index, 1);
+        this.checked = "";
+      }, 150);
     },
   },
 };

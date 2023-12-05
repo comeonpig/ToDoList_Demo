@@ -23,7 +23,6 @@ export default {
       "星期五",
       "星期六",
     ];
-    console.log(date, year, month, day, week);
     return {
       year,
       month,
